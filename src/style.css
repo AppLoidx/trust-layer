@@ -1170,7 +1170,7 @@ section.block.light {
 }
 
 .code-body {
-  max-height: 600px;
+  max-height: none;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(14,159,142,0.25) transparent;
