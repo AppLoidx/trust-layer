@@ -274,9 +274,13 @@ contract TrustLayerLoan {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
 
-    h = h.replace(/(\/\*\*[\s\S]*?\*\/)/g, '<span class="sol-comment">$1</span>');
-    h = h.replace(/(\/\/.*)/g, '<span class="sol-comment">$1</span>');
-    h = h.replace(/(".*?")/g, '<span class="sol-string">$1</span>');
+    // Protect comments and strings from subsequent regex passes
+    const saved = [];
+    const protect = (m, cls) => { saved.push(`<span class="${cls}">${m}</span>`); return `\x00${saved.length - 1}\x00`; };
+
+    h = h.replace(/(\/\/.*)/g, (m) => protect(m, 'sol-comment'));
+    h = h.replace(/(".*?")/g, (m) => protect(m, 'sol-string'));
+
     h = h.replace(/\b(pragma)\b/g, '<span class="sol-pragma">$1</span>');
     h = h.replace(/\b(contract|function|struct|enum|event|mapping|modifier|import|is|using|returns|return|require|emit|external|public|internal|private|view|payable|pure|memory|storage|calldata|indexed|for|if|else|while|new|delete|this|super)\b/g, '<span class="sol-keyword">$1</span>');
     h = h.replace(/\b(uint256|uint8|uint|int256|address|bool|bytes|string|bytes32)\b/g, '<span class="sol-type">$1</span>');
@@ -284,6 +288,8 @@ contract TrustLayerLoan {
     h = h.replace(/\b(COLLECTING|ACTIVE|DISTRIBUTED|DEFAULTED)\b/g, '<span class="sol-enum">$1</span>');
     h = h.replace(/\b(\d+)\b/g, '<span class="sol-number">$1</span>');
 
+    // Restore protected regions
+    h = h.replace(/\x00(\d+)\x00/g, (_, i) => saved[i]);
     return h;
   }
 
