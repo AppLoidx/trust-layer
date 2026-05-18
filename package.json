@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "lenis": "^1.3.23",
     "three": "^0.184.0",
     "vite": "^6.4.2"
   }

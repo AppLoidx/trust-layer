@@ -1,10 +1,24 @@
 import * as THREE from 'three';
+import Lenis from 'lenis';
 import './style.css';
+
+/* ─────────── Smooth scroll with inertia ─────────── */
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  touchMultiplier: 2,
+});
+
+function raf(time) {
+  lenis.raf(time);
+  requestAnimationFrame(raf);
+}
+requestAnimationFrame(raf);
 
 /* ─────────── Topnav scroll state ─────────── */
 const nav = document.getElementById('topnav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
+lenis.on('scroll', (e) => {
+  nav.classList.toggle('scrolled', e.scroll > 40);
 });
 
 /* ─────────── Reveal on scroll (IntersectionObserver) ─────────── */
@@ -207,7 +221,7 @@ function animateCount(el) {
     setStep(step);
     ticking = false;
   }
-  window.addEventListener('scroll', () => {
+  lenis.on('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(update);
       ticking = true;
@@ -352,7 +366,7 @@ contract TrustLayerLoan {
     setState(progress < 0.5 ? 0 : 1);
     ticking = false;
   }
-  window.addEventListener('scroll', () => {
+  lenis.on('scroll', () => {
     if (!ticking) {
       requestAnimationFrame(update);
       ticking = true;
