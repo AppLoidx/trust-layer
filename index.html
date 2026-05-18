@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TrustLayer — Direct Lending Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+<!-- ─────────────────── TOP NAV ─────────────────── -->
+<nav class="topnav" id="topnav">
+  <a href="#" class="brand">
+    <span class="brand-mark"></span>
+    TrustLayer
+  </a>
+  <div class="nav-links">
+    <a href="#protocol">Protocol</a>
+    <a href="#numbers">Economics</a>
+    <a href="#tech">Tech</a>
+    <a href="#legal">Legal</a>
+    <a href="#cta" class="nav-cta">Whitepaper →</a>
+  </div>
+</nav>
+
+<!-- ─────────────────── HERO ─────────────────── -->
+<section class="hero grid-bg">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-label eyebrow">TrustLayer Protocol · v1.0</div>
+        <h1 class="display hero-headline">
+          Direct lending.<br />
+          <span class="line2">No bank required.</span>
+        </h1>
+        <p class="hero-sub">
+          Smart contracts replace intermediaries. <strong>Borrowers</strong> get capital. <strong>Investors</strong> get yield. Code enforces everything — in roughly 15 seconds at maturity.
+        </p>
+        <div class="hero-ctas">
+          <a href="#cta" class="btn btn-primary">
+            Read the Protocol <span class="arrow">→</span>
+          </a>
+          <a href="#" class="btn btn-ghost">
+            View on GitHub
+          </a>
+        </div>
+        <div class="hero-meta">
+          <div class="hero-meta-item">
+            <span class="num mono">~15s</span>
+            <span class="lbl">Settlement at maturity</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="num mono">7.5%</span>
+            <span class="lbl">Platform margin</span>
+          </div>
+          <div class="hero-meta-item">
+            <span class="num mono">0</span>
+            <span class="lbl">Human intervention</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-visual-overlay">
+          <span class="corner corner-tl"></span>
+          <span class="corner corner-tr"></span>
+          <span class="corner corner-bl"></span>
+          <span class="corner corner-br"></span>
+          <span class="tag tag-top">node.network / live</span>
+          <span class="tag tag-bot">ico_20 · 12-vertex topology</span>
+        </div>
+        <canvas id="icosa"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <span class="bar"></span>
+  </div>
+</section>
+
+<!-- ─────────────────── SECTION 2 — PROBLEM ─────────────────── -->
+<section class="block darker grid-bg" id="problem">
+  <div class="container">
+    <div class="section-eyebrow eyebrow-muted reveal">§ 01 / The friction</div>
+    <h2 class="display section-headline reveal">Banks are the bottleneck.</h2>
+    <p class="section-lead reveal">A century-old credit committee in the middle of every transaction. Slow, expensive, opaque — and most applicants never make it through the door.</p>
+    <div class="pain-grid">
+      <div class="pain reveal reveal-d1">
+        <div class="pain-num">01 / Time</div>
+        <div class="pain-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 3h6"/>
+          </svg>
+        </div>
+        <div class="pain-stat">2–3<span class="unit">mo</span></div>
+        <div class="pain-title">Months to approve</div>
+        <div class="pain-copy">Credit committees, paperwork, collateral requirements. Most SMBs are rejected outright.</div>
+      </div>
+      <div class="pain reveal reveal-d2">
+        <div class="pain-num">02 / Cost</div>
+        <div class="pain-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 7h18"/><path d="M3 12h18"/><path d="M3 17h12"/><path d="M20 14l2 3-2 3"/>
+          </svg>
+        </div>
+        <div class="pain-stat">27<span class="unit">%</span></div>
+        <div class="pain-title">Effective interest rate</div>
+        <div class="pain-copy">Banks price in their own risk and operating costs. The borrower pays for the inefficiency.</div>
+      </div>
+      <div class="pain reveal reveal-d3">
+        <div class="pain-num">03 / Trust</div>
+        <div class="pain-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/>
+          </svg>
+        </div>
+        <div class="pain-stat">Opaque</div>
+        <div class="pain-title">Black-box process</div>
+        <div class="pain-copy">No visibility into how decisions are made. Terms can change. Disputes take years to resolve.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── SECTION 3 — PROTOCOL (PARALLAX) ─────────────────── -->
+<div class="protocol-wrap" id="protocol">
+  <div class="protocol-sticky">
+    <div class="protocol-head">
+      <div class="section-eyebrow eyebrow-muted">§ 02 / The protocol</div>
+      <h2 class="display section-headline" style="margin-bottom: 16px;">A loan lifecycle, in five<br/>immutable steps.</h2>
+    </div>
+    <div class="protocol-stage">
+      <div class="protocol-narration">
+        <div class="step-narration active" data-step="0">
+          <div class="step-tag"><span class="dot"></span>Step 01 · Genesis</div>
+          <h3 class="step-title">The contract is born.</h3>
+          <p class="step-copy">Borrower deploys a <strong>master contract</strong>. Parameters locked forever: amount, term, interest rate, tranche structure. No party can amend them after deployment.</p>
+        </div>
+        <div class="step-narration" data-step="1">
+          <div class="step-tag"><span class="dot"></span>Step 02 · Skin in the game</div>
+          <h3 class="step-title">Tranche C funded.</h3>
+          <p class="step-copy">Borrower funds <strong>Tranche C (10%)</strong> with their own capital. They lose it first in a default. Skin in the game, enforced in code — not in covenants.</p>
+        </div>
+        <div class="step-narration" data-step="2">
+          <div class="step-tag"><span class="dot"></span>Step 03 · Funding</div>
+          <h3 class="step-title">Investors fund the stack.</h3>
+          <p class="step-copy">Retail investors buy <strong>Senior tokens (12% p.a.)</strong>. Risk investors buy <strong>Mezzanine (18% p.a.)</strong>. Contract transitions: <span class="mono" style="color:var(--teal)">COLLECTING → ACTIVE</span>.</p>
+        </div>
+        <div class="step-narration" data-step="3">
+          <div class="step-tag"><span class="dot"></span>Step 04 · Maturity</div>
+          <h3 class="step-title">Maturity. No phone calls.</h3>
+          <p class="step-copy">At maturity, the backend monitors on-chain state. <strong>No human action needed.</strong> Funds are distributed in roughly <strong>15 seconds</strong>.</p>
+        </div>
+        <div class="step-narration" data-step="4">
+          <div class="step-tag"><span class="dot"></span>Step 05 · Waterfall</div>
+          <h3 class="step-title">Senior first. Always.</h3>
+          <p class="step-copy">Capital flows in priority order: <strong>Senior → Mezzanine → Junior</strong>. The borrower receives last. The waterfall is immutable — written into bytecode, not into a clause.</p>
+        </div>
+
+        <div class="step-progress">
+          <div class="pip" data-pip="0"></div>
+          <div class="pip" data-pip="1"></div>
+          <div class="pip" data-pip="2"></div>
+          <div class="pip" data-pip="3"></div>
+          <div class="pip" data-pip="4"></div>
+        </div>
+      </div>
+
+      <div class="contract-stage">
+        <div class="contract-frame" id="contractFrame">
+          <span class="contract-label">Master Contract / 0xa9c…f12</span>
+          <span class="contract-status" id="contractStatus">
+            <span class="led"></span>
+            <span id="contractStatusText">Collecting</span>
+          </span>
+          <div class="contract-stack" id="contractStack">
+            <div class="tranche tranche-c collapsed" data-tranche="c" style="height:0;">
+              <div class="tranche-inner">
+                <span class="tranche-tag">▼ Tranche C · Junior</span>
+                <span class="tranche-meta"><span class="pct">10%</span>Borrower equity</span>
+              </div>
+            </div>
+            <div class="tranche tranche-b collapsed" data-tranche="b" style="height:0;">
+              <div class="tranche-inner">
+                <span class="tranche-tag">▣ Tranche B · Mezzanine</span>
+                <span class="tranche-meta"><span class="pct">20%</span>18.0% p.a.</span>
+              </div>
+            </div>
+            <div class="tranche tranche-a collapsed" data-tranche="a" style="height:0;">
+              <div class="tranche-inner">
+                <span class="tranche-tag">▲ Tranche A · Senior</span>
+                <span class="tranche-meta"><span class="pct">70%</span>12.0% p.a.</span>
+              </div>
+            </div>
+          </div>
+          <div class="stage-overlay" id="clockOverlay">
+            <div class="clock"></div>
+          </div>
+          <div class="badge-distributed" id="distBadge">✓ Distributed · 14.8s</div>
+          <div class="waterfall-arrows" id="waterfallArrows">
+            <svg viewBox="0 0 400 400" preserveAspectRatio="none">
+              <defs>
+                <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                  <path d="M0,0 L10,5 L0,10 z" fill="#0E9F8E"/>
+                </marker>
+              </defs>
+              <path d="M 200 380 C 320 320, 360 240, 360 160" stroke="#1A56DB" stroke-width="1.5" fill="none" stroke-dasharray="4 4" opacity="0.8" marker-end="url(#arr)"/>
+              <path d="M 200 380 C 100 320, 60 240, 60 160" stroke="#8C6EE0" stroke-width="1.5" fill="none" stroke-dasharray="4 4" opacity="0.8" marker-end="url(#arr)"/>
+              <path d="M 200 380 C 200 340, 200 280, 200 220" stroke="#E5564A" stroke-width="1.5" fill="none" stroke-dasharray="4 4" opacity="0.6" marker-end="url(#arr)"/>
+              <text x="360" y="148" fill="#4F86E6" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">SR</text>
+              <text x="60" y="148" fill="#A88EE8" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">MZ</text>
+              <text x="200" y="208" fill="#E5564A" font-family="IBM Plex Mono" font-size="10" text-anchor="middle">JR</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── SECTION 4 — NUMBERS ─────────────────── -->
+<section class="block light" id="numbers">
+  <div class="container">
+    <div class="section-eyebrow eyebrow-muted reveal">§ 03 / The economics</div>
+    <h2 class="display section-headline reveal" style="color:var(--navy)">The math works for everyone.</h2>
+    <p class="section-lead reveal" style="color:var(--mid)">When you remove a 17–22% intermediary, the savings don't disappear. They flow back to the two parties that matter — and a sliver remains for the protocol that made it possible.</p>
+
+    <div class="stats-row">
+      <div class="stat-card reveal reveal-d1">
+        <div class="stat-eyebrow">For the borrower</div>
+        <div class="stat-value">~<span data-count="68000">0</span><span class="small"> ₽K</span></div>
+        <div class="stat-context">Saved per <strong>1 million</strong> borrowed, versus traditional bank financing.</div>
+      </div>
+      <div class="stat-card reveal reveal-d2">
+        <div class="stat-eyebrow">For the investor</div>
+        <div class="stat-value">+<span data-count="81">0</span><span class="small">%</span></div>
+        <div class="stat-context"><strong>12%</strong> net p.a. on Senior vs <strong>~8%</strong> on a bank deposit. Higher yield, transparent risk.</div>
+      </div>
+      <div class="stat-card reveal reveal-d3">
+        <div class="stat-eyebrow">For the protocol</div>
+        <div class="stat-value"><span data-count="75" data-divide="10">0</span><span class="small">%</span></div>
+        <div class="stat-context">Platform margin — versus the <strong>17–22%</strong> a traditional bank captures for the same intermediation.</div>
+      </div>
+    </div>
+
+    <div class="compare-table reveal">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Borrower</th>
+            <th>Senior Investor</th>
+            <th>Platform</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Traditional Bank</td>
+            <td>
+              <span class="cell-num">27% rate</span>
+              <span class="cell-note">3 months · collateral required</span>
+            </td>
+            <td>
+              <span class="cell-num">8% deposit</span>
+              <span class="cell-note">Capped · indirect exposure</span>
+            </td>
+            <td>
+              <span class="cell-num">17–22% margin</span>
+              <span class="cell-note">Manual underwriting</span>
+            </td>
+          </tr>
+          <tr>
+            <td>TrustLayer</td>
+            <td>
+              <span class="cell-num">~20% rate</span>
+              <span class="cell-note">Instant · no collateral</span>
+            </td>
+            <td>
+              <span class="cell-num">12% net p.a.</span>
+              <span class="cell-note">Direct · tranched risk</span>
+            </td>
+            <td>
+              <span class="cell-num">7.5% margin</span>
+              <span class="cell-note">Automated</span>
+            </td>
+          </tr>
+          <tr class="delta">
+            <td>Delta</td>
+            <td>
+              <span class="cell-num">Save ~₽68K/M</span>
+              <span class="cell-note">+ instant settlement</span>
+            </td>
+            <td>
+              <span class="cell-num">+81% income</span>
+              <span class="cell-note">Same horizon</span>
+            </td>
+            <td>
+              <span class="cell-num">Lower margin</span>
+              <span class="cell-note">Higher volume</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── SECTION 5 — DEFAULT PROTECTION ─────────────────── -->
+<div class="default-wrap" id="default">
+  <div class="default-sticky">
+    <div class="default-stage">
+      <div class="default-narration">
+        <div class="section-eyebrow eyebrow-muted">§ 04 / Default protection</div>
+        <h2 class="display section-headline" style="font-size: clamp(36px, 4vw, 56px); margin-bottom: 24px;">What if the borrower defaults?</h2>
+
+        <div id="defaultStateTag" class="default-state-tag">
+          <span>State A · Borrower returns 40%</span>
+        </div>
+
+        <p id="defaultCopy" class="step-copy" style="margin-bottom: 32px;">
+          Borrower repays <strong>400,000 ₽</strong> of a 1M loan, then defaults. Tranche C collateral of <strong>100,000 ₽</strong> is forfeited and added to the recovery pool.
+        </p>
+
+        <div class="callout" id="defaultCallout">
+          <strong>Tranche C collateral saved Senior investors ₽100,000.</strong><br/>
+          Without it, Senior losses would be 42.9%. With it, 28.6%. The borrower cannot take investor money without putting their own at risk first.
+        </div>
+      </div>
+
+      <div class="default-viz">
+        <div class="pool-label">
+          <span class="label">Recovery pool</span>
+          <span class="total" id="poolTotal">₽500K</span>
+        </div>
+        <div class="pool-bar">
+          <div class="seg seg-recovery" id="segRecovery" style="width: 0">400K</div>
+          <div class="seg seg-collateral" id="segCollateral" style="width: 0">+100K</div>
+        </div>
+        <div class="pool-legend">
+          <span><span class="dot dot-blue"></span>Borrower repayment</span>
+          <span><span class="dot dot-red"></span>Tranche C collateral</span>
+        </div>
+
+        <div class="distribution" id="distribution">
+          <div class="dist-cell">
+            <div class="lbl">Senior · 700K owed</div>
+            <div class="val">₽500K</div>
+            <div class="delta">−28.6% (vs −42.9%)</div>
+          </div>
+          <div class="dist-cell zero">
+            <div class="lbl">Mezzanine · 200K</div>
+            <div class="val">₽0</div>
+            <div class="delta">−100%</div>
+          </div>
+          <div class="dist-cell zero">
+            <div class="lbl">Junior · 100K</div>
+            <div class="val">₽0</div>
+            <div class="delta">−100%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────── SECTION 6 — TECH STACK ─────────────────── -->
+<section class="block dark grid-bg" id="tech">
+  <div class="container">
+    <div class="section-eyebrow eyebrow-muted reveal">§ 05 / The stack</div>
+    <h2 class="display section-headline reveal">Built on production-grade infrastructure.</h2>
+    <p class="section-lead reveal">No experimental dependencies. No moonshots. Every component is battle-tested by enterprises larger than ours.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card reveal reveal-d1">
+        <div class="tech-head">
+          <div class="tech-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 7L4 12l5 5"/><path d="M15 7l5 5-5 5"/><path d="M14 4l-4 16"/>
+            </svg>
+          </div>
+          <div class="tech-name">Blockchain</div>
+        </div>
+        <ul class="tech-list">
+          <li>Solidity 0.8.20</li>
+          <li>Hardhat dev environment</li>
+          <li>ETH-compatible · Sepolia</li>
+        </ul>
+      </div>
+
+      <div class="tech-card reveal reveal-d1">
+        <div class="tech-head">
+          <div class="tech-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 11h13a4 4 0 0 1 0 8H4"/><path d="M4 19c0-3 0-6 0-12"/><path d="M8 3v2"/><path d="M12 3v2"/><path d="M16 3v2"/>
+            </svg>
+          </div>
+          <div class="tech-name">Backend</div>
+        </div>
+        <ul class="tech-list">
+          <li>Spring Boot 3.2.5</li>
+          <li>Web3j 4.9.8</li>
+          <li>Java 21 LTS</li>
+        </ul>
+      </div>
+
+      <div class="tech-card reveal reveal-d2">
+        <div class="tech-head">
+          <div class="tech-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/>
+            </svg>
+          </div>
+          <div class="tech-name">Frontend</div>
+        </div>
+        <ul class="tech-list">
+          <li>React 19 + TypeScript</li>
+          <li>Vite build · HMR</li>
+          <li>Tailwind CSS</li>
+        </ul>
+      </div>
+
+      <div class="tech-card reveal reveal-d2">
+        <div class="tech-head">
+          <div class="tech-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 1 1 8 0v4"/>
+            </svg>
+          </div>
+          <div class="tech-name">Auth &amp; Docs</div>
+        </div>
+        <ul class="tech-list">
+          <li>JWT · jjwt 0.12.6</li>
+          <li>Springdoc OpenAPI</li>
+          <li>Swagger UI live spec</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="status-line reveal">
+      <div class="status-code">
+        <span class="step" id="st-collecting">COLLECTING</span>
+        <span class="arrow">→</span>
+        <span class="step live" id="st-active">ACTIVE</span>
+        <span class="arrow">→</span>
+        <span class="step" id="st-distributed">DISTRIBUTED</span>
+      </div>
+      <div class="status-note">Loan status is on-chain. Immutable. Always visible.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── SECTION 7 — LEGAL ─────────────────── -->
+<section class="block darker" id="legal">
+  <div class="container">
+    <div class="section-eyebrow eyebrow-muted reveal">§ 06 / Legal framework</div>
+    <h2 class="display section-headline reveal">Compliant by design.</h2>
+    <p class="section-lead reveal">Smart contracts have legal force where it matters — and a regulated path to settlement.</p>
+    <div class="legal-row">
+      <div class="legal-card reveal reveal-d1">
+        <div class="legal-tag">FZ 259</div>
+        <div class="legal-title">Federal Law 259-FZ</div>
+        <div class="legal-copy">Digital Financial Assets. Smart contract bears legal force in the Russian Federation. No paper duplicate required.</div>
+      </div>
+      <div class="legal-card reveal reveal-d2">
+        <div class="legal-tag">CBR · IS Operator</div>
+        <div class="legal-title">Central Bank licence</div>
+        <div class="legal-copy">Platform operates as a licensed Information System Operator. Subject to CBR supervision and audit.</div>
+      </div>
+      <div class="legal-card reveal reveal-d3">
+        <div class="legal-tag">FZ 340</div>
+        <div class="legal-title">Federal Law 340-FZ</div>
+        <div class="legal-copy">Digital Ruble integration path. On-chain settlement without bank intermediaries — fully sanctioned.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────── SECTION 8 — CTA ─────────────────── -->
+<section class="cta-section grid-bg" id="cta">
+  <div class="container">
+    <h2 class="display cta-headline reveal">The bank was<br/><em style="color:var(--teal); font-style:italic">never necessary</em>.</h2>
+    <p class="cta-sub reveal">TrustLayer automates what intermediaries charge <strong style="color:var(--white)">17–22%</strong> to do manually. The protocol is live. The math is settled.</p>
+    <div class="cta-ctas reveal">
+      <a href="#" class="btn btn-primary">Read the Whitepaper <span class="arrow">→</span></a>
+      <a href="#" class="btn btn-ghost">Explore the API</a>
+    </div>
+    <div class="footer">
+      <a href="#" class="brand">
+        <span class="brand-mark"></span>
+        TrustLayer
+      </a>
+      <div class="footer-links">
+        <a href="#">Whitepaper</a>
+        <a href="#">GitHub</a>
+        <a href="#">Audit</a>
+        <a href="#">Contact</a>
+      </div>
+      <div>TrustLayer Protocol v1.0 / 2026 · Confidential · Not a public offer</div>
+    </div>
+  </div>
+  <div class="cta-bg-text">TRUSTLAYER</div>
+</section>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
