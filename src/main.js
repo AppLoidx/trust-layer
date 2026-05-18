@@ -222,116 +222,50 @@ function animateCount(el) {
   const codeEl = document.getElementById('solidityCode');
   if (!codeEl) return;
 
-  const src = `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
-
+  const src = `// TrustLayerLoan.sol — Solidity 0.8.20
 contract TrustLayerLoan {
     enum Status { COLLECTING, ACTIVE, DISTRIBUTED, DEFAULTED }
+    struct Tranche { uint256 allocated; uint256 filled; uint256 rateBps; }
 
-    struct Tranche {
-        uint256 allocated;
-        uint256 filled;
-        uint256 rateBps;           // 1200 = 12%, 1800 = 18%, 2500 = 25%
-        address[] investors;
-        mapping(address => uint256) invested;
-    }
-
-    // tranches[0]=Senior(70%), [1]=Mezzanine(20%), [2]=Junior(10%)
-    Tranche[3] internal tranches;
+    Tranche[3] internal tranches;  // A:Senior  B:Mezz  C:Junior
     Status public status;
 
-    // ...
-
-    constructor(
-        address _borrower,
-        address _platform,
-        uint256 _loanAmount,
-        uint256 _durationSeconds
-    ) payable {
-        require(msg.value == (_loanAmount * 10) / 100, "Must fund Tranche C (10%)");
-
-        status = Status.COLLECTING;
-
-        // Tranche allocations — immutable after deploy
-        tranches[0].allocated = (_loanAmount * 70) / 100;   // A: Senior
-        tranches[0].rateBps = 1200;                          // 12% p.a.
-
-        tranches[1].allocated = (_loanAmount * 20) / 100;   // B: Mezzanine
-        tranches[1].rateBps = 1800;                          // 18% p.a.
-
-        tranches[2].allocated = (_loanAmount * 10) / 100;   // C: Junior
-        tranches[2].rateBps = 2500;                          // 25% p.a.
+    constructor(uint256 _loanAmount) payable {
+        require(msg.value == (_loanAmount * 10) / 100);  // borrower funds C
+        tranches[0] = Tranche((_loanAmount * 70) / 100, 0, 1200);  // 12%
+        tranches[1] = Tranche((_loanAmount * 20) / 100, 0, 1800);  // 18%
+        tranches[2] = Tranche((_loanAmount * 10) / 100, 0, 2500);  // 25%
     }
 
-    // ...
-
-    function invest(uint8 trancheId) external payable {
-        require(status == Status.COLLECTING, "Not accepting investments");
-        require(trancheId < 2, "Only A(0) or B(1)");
-
-        Tranche storage t = tranches[trancheId];
-        require(t.filled + msg.value <= t.allocated, "Exceeds capacity");
-
-        t.invested[msg.sender] += msg.value;
-        t.filled += msg.value;
-
-        // Auto-activate when both A + B fully funded
-        if (
-            tranches[0].filled == tranches[0].allocated &&
-            tranches[1].filled == tranches[1].allocated
-        ) {
-            status = Status.ACTIVE;
-        }
+    function invest(uint8 id) external payable {
+        require(status == Status.COLLECTING);
+        tranches[id].filled += msg.value;
+        if (tranches[0].filled == tranches[0].allocated &&
+            tranches[1].filled == tranches[1].allocated)
+            status = Status.ACTIVE;                    // auto-activate
     }
-
-    // ...
 
     function distribute() external {
-        require(status == Status.ACTIVE, "Contract not active");
-        require(block.timestamp >= maturityTime, "Not matured yet");
-
+        require(status == Status.ACTIVE && block.timestamp >= maturityTime);
         status = Status.DISTRIBUTED;
-
-        // Pay every investor: principal + interest, Senior first
         for (uint8 t = 0; t < 3; t++) {
-            Tranche storage tranche = tranches[t];
-            for (uint256 i = 0; i < tranche.investors.length; i++) {
-                address investor = tranche.investors[i];
-                uint256 principal = tranche.invested[investor];
-                uint256 interest = (principal * tranche.rateBps) / 10000;
-                payable(investor).transfer(principal + interest);
-            }
+            // pay each investor: principal + (principal * rateBps / 10000)
+            // Senior first. Waterfall order. Immutable.
         }
     }
 
     function declareDefault() external {
-        require(msg.sender == platform, "Only platform");
-        require(status == Status.ACTIVE, "Contract not active");
-
+        require(msg.sender == platform);
         status = Status.DEFAULTED;
-
-        // Tranche C forfeited — split remaining between A and B
-        uint256 available = address(this).balance;
-        uint256 totalAB = tranches[0].filled + tranches[1].filled;
-
-        for (uint8 t = 0; t < 2; t++) {
-            // proportional payout to Senior & Mezzanine investors
-            // ...
-        }
+        // Tranche C forfeited → remaining split A/B proportionally
     }
 }`;
 
-  // Lines to highlight
   const highlightedLines = new Set([
-    6, 7, 8, 9, 10,                // struct Tranche
-    17, 18, 19, 20,                // constructor params
-    24, 25, 26, 27, 28, 29,        // tranche allocations
-    35, 36, 37,                    // invest
-    44, 45, 46, 47, 48,            // auto-activate
-    53, 54,                        // distribute
-    59, 60, 61, 62, 63, 64, 65,   // payout loop
-    68, 69, 70,                    // declareDefault
-    74, 75, 76,                    // forfeit logic
+    9, 10, 11, 12,     // tranche allocations
+    15, 16, 17, 18, 19, // invest
+    22, 23, 24,         // distribute
+    30, 31, 32,         // default
   ]);
 
   function highlight(code) {
