@@ -319,26 +319,26 @@ contract TrustLayerLoan {
     curState = s;
     if (s === 0) {
       segRecovery.style.width = '40%';
-      segRecovery.textContent = '₽400K (40%)';
+      segRecovery.textContent = '$400K (40%)';
       segCollateral.style.width = '0%';
       segCollateral.textContent = '';
-      poolTotal.textContent = '₽400K';
+      poolTotal.textContent = '$400K';
       distribution.classList.remove('show');
       callout.classList.remove('show');
       stateTag.classList.remove('recovered');
       stateTag.innerHTML = '<span>State A · Borrower returns 40%</span>';
-      copy.innerHTML = 'Borrower repays <strong>400,000 ₽</strong> of a 1M loan, then defaults. The pool is short — but Tranche C collateral is about to be added.';
+      copy.innerHTML = 'Borrower repays <strong>$400,000</strong> of a $1M loan, then defaults. The pool is short — but Tranche C collateral is about to be added.';
     } else {
       segRecovery.style.width = '40%';
-      segRecovery.textContent = '₽400K';
+      segRecovery.textContent = '$400K';
       segCollateral.style.width = '10%';
-      segCollateral.textContent = '+₽100K';
-      poolTotal.textContent = '₽500K';
+      segCollateral.textContent = '+$100K';
+      poolTotal.textContent = '$500K';
       distribution.classList.add('show');
       callout.classList.add('show');
       stateTag.classList.add('recovered');
       stateTag.innerHTML = '<span>State B · Waterfall executes</span>';
-      copy.innerHTML = 'Tranche C collateral (<strong>₽100K</strong>) is forfeited and added to the recovery pool. The contract pays <strong>Senior first</strong>, in priority order. Mezzanine and Junior receive nothing.';
+      copy.innerHTML = 'Tranche C collateral (<strong>$100K</strong>) is forfeited and added to the recovery pool. The contract pays <strong>Senior first</strong>, in priority order. Mezzanine and Junior receive nothing.';
     }
   }
 
