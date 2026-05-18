@@ -276,7 +276,7 @@ contract TrustLayerLoan {
 
     // Protect comments and strings from subsequent regex passes
     const saved = [];
-    const protect = (m, cls) => { saved.push(`<span class="${cls}">${m}</span>`); return `\x00${saved.length - 1}\x00`; };
+    const protect = (m, cls) => { saved.push(`<span class="${cls}">${m}</span>`); return `\u200B${String.fromCharCode(65 + saved.length - 1)}\u200B`; };
 
     h = h.replace(/(\/\/.*)/g, (m) => protect(m, 'sol-comment'));
     h = h.replace(/(".*?")/g, (m) => protect(m, 'sol-string'));
@@ -289,7 +289,7 @@ contract TrustLayerLoan {
     h = h.replace(/\b(\d+)\b/g, '<span class="sol-number">$1</span>');
 
     // Restore protected regions
-    h = h.replace(/\x00(\d+)\x00/g, (_, i) => saved[i]);
+    h = h.replace(/\u200B([A-Z])\u200B/g, (_, c) => saved[c.charCodeAt(0) - 65]);
     return h;
   }
 
